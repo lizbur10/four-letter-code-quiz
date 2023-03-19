@@ -22,6 +22,9 @@ function App() {
     gameOver: {},
   });
 
+  const baseUrl = "http://localhost:3000/birds";
+  // const baseUrl = "https://four-letter-code-api.onrender.com/birds"
+
   useEffect(() => {
     if (game.questionList.length === game.settings.numQuestions) endGame();
   }, [game.questionList]);
@@ -29,8 +32,8 @@ function App() {
   const launchQuestion = () => {
     let url;
     game.settings.scope === "appledore"
-      ? (url = "http://localhost:3000/birds/appledore/random")
-      : (url = "http://localhost:3000/birds/random");
+      ? (url = `${baseUrl}/appledore/random`)
+      : (url = `${baseUrl}/random`);
     fetch(url)
       .then((resp) => resp.json())
       .then((bird) => {
