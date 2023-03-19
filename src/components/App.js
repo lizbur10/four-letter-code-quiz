@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     if (game.questionList.length === game.settings.numQuestions) endGame();
-  });
+  }, [game.questionList]);
 
   const launchQuestion = () => {
     let url;
@@ -179,6 +179,7 @@ function App() {
   };
 
   const renderQuizResults = () => {
+    debugger;
     return (
       <ResultsTally
         gameOver={game.gameOver}
@@ -193,9 +194,15 @@ function App() {
   const onRightWrongModalClose = () => {
     // debugger;
     if (game.correct) {
-      setGame({ ...game, correct: null, display: "question" });
+      setGame({
+        ...game,
+        correct: null,
+        display: "question",
+      });
+      launchQuestion();
     } else if (game.answer) {
       setGame({ ...game, correct: null, answer: null });
+      launchQuestion();
     } else {
       setGame({ ...game, correct: null, display: "question" });
     }
