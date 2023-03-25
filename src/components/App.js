@@ -108,15 +108,16 @@ function App() {
   };
 
   const endGame = () => {
+    const numQuestions = game.settings.numQuestions;
     const total = game.questionList.reduce((memo, currentVal) => {
       return currentVal.correct ? memo + 1 : memo;
     }, 0);
     let congrat;
-    if (total > 8) {
+    if (total / numQuestions > 0.8) {
       congrat = "You rule!";
-    } else if (total > 6) {
+    } else if (total / numQuestions > 0.6) {
       congrat = "Nice going!";
-    } else if (total > 4) {
+    } else if (total / numQuestions > 0.4) {
       congrat = "You're making progress!";
     } else {
       congrat = "Keep practicing:";
