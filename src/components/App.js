@@ -40,7 +40,13 @@ function App() {
         if (game.questionList.find((question) => question.id === bird.id)) {
           launchQuestion();
         } else {
-          setGame(() => ({ ...game, display: "question", bird: bird }));
+          setGame(() => ({
+            ...game,
+            correct: null,
+            answer: null,
+            display: "question",
+            bird: bird,
+          }));
         }
       });
   };
@@ -54,40 +60,33 @@ function App() {
       game.settings.mode === "nameToCode"
         ? bird.four_letter_code
         : bird.common_name;
-    bird.correct = false;
-    setGame({
+    setGame(() => ({
       ...game,
       display: "rightWrong",
       answer: answer,
       questionList: [...game.questionList, bird],
-    });
+    }));
   };
-
-  // const checkContinue = () => {
-  //   game.questionList.length < game.settings.numQuestions
-  //     ? launchQuestion()
-  //     : endGame();
-  // };
 
   const onAnswerSubmit = (bird, event) => {
     event.preventDefault();
     if (checkCorrect(bird)) {
       bird.correct = true;
-      setGame({
+      setGame(() => ({
         ...game,
         correct: true,
         display: "rightWrong",
         bird: {},
         userResponse: "",
         questionList: [...game.questionList, bird],
-      });
+      }));
     } else {
-      setGame({
+      setGame(() => ({
         ...game,
         correct: false,
         display: "rightWrong",
         userResponse: "",
-      });
+      }));
     }
   };
 
@@ -122,12 +121,12 @@ function App() {
     } else {
       congrat = "Keep practicing:";
     }
-    setGame({
+    setGame(() => ({
       ...game,
       bird: "",
       display: "over",
       gameOver: { total: total, congrat: congrat, open: true },
-    });
+    }));
   };
 
   // const renderResponseTable = () => {
@@ -140,14 +139,14 @@ function App() {
   // };
 
   const onOptionChange = (event) =>
-    setGame({
+    setGame(() => ({
       ...game,
       settings: { ...game.settings, [event.target.name]: event.target.id },
-    });
+    }));
 
   // const handleContactClick = (event) => {
   //   event.preventDefault();
-  //   setGame({ ...game, display: "contact" });
+  //   setGame(() => ({ ...game, display: "contact" }));
   // };
 
   const renderWelcomeScreen = () => {
@@ -178,11 +177,15 @@ function App() {
   };
 
   const onResultsModalClose = () => {
-    setGame({ ...game, display: "welcome", gameOver: {}, questionList: [] });
+    setGame(() => ({
+      ...game,
+      display: "welcome",
+      gameOver: {},
+      questionList: [],
+    }));
   };
 
   const renderQuizResults = () => {
-    debugger;
     return (
       <ResultsTally
         gameOver={game.gameOver}
@@ -195,19 +198,10 @@ function App() {
   };
 
   const onRightWrongModalClose = () => {
-    // debugger;
-    if (game.correct) {
-      setGame({
-        ...game,
-        correct: null,
-        display: "question",
-      });
-      launchQuestion();
-    } else if (game.answer) {
-      setGame({ ...game, correct: null, answer: null });
+    if (game.correct || game.answer) {
       launchQuestion();
     } else {
-      setGame({ ...game, correct: null, display: "question" });
+      setGame(() => ({ ...game, display: "question" }));
     }
   };
 
