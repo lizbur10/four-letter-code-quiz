@@ -12,7 +12,7 @@ function App() {
     settings: {
       scope: "appledore",
       mode: "nameToCode",
-      numQuestions: 5,
+      numQuestions: 10,
     },
     correct: null,
     answer: null,
@@ -22,8 +22,8 @@ function App() {
     gameOver: {},
   });
 
-  const baseUrl = "http://localhost:3000/birds";
-  // const baseUrl = "https://four-letter-code-api.onrender.com/birds"
+  // const baseUrl = "http://localhost:3000/birds";
+  const baseUrl = "https://four-letter-code-api.onrender.com/birds";
 
   useEffect(() => {
     if (game.questionList.length === game.settings.numQuestions) endGame();
