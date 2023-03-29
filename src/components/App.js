@@ -27,7 +27,7 @@ function App() {
 
   useEffect(() => {
     if (game.questionList.length === game.settings.numQuestions) endGame();
-  }, [game.questionList]);
+  }, [game.questionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const launchQuestion = () => {
     let url;
